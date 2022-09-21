@@ -1,6 +1,6 @@
 package models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import models.Enums.TipoRegistro;
 import utils.UtilDates;
@@ -8,7 +8,7 @@ import utils.UtilDates;
 public class Registro {
     private String descricao;
     private double valor;
-    private LocalDateTime dataDeCriacao;
+    private LocalDate dataDeCriacao;
     private String categoria;
     private TipoRegistro tipo;
     
@@ -18,7 +18,7 @@ public class Registro {
     public Registro(String descricao, double valor, String dataDeCriacao, String categoria, TipoRegistro tipo) {
         this.descricao = descricao;
         this.valor = valor;
-        this.dataDeCriacao = UtilDates.StringToLocalDateTime(dataDeCriacao, "dd/MM/yyyy HH:mm:ss");
+        this.dataDeCriacao = new UtilDates().StringToLocalDate(dataDeCriacao);
         this.categoria = categoria;
         this.tipo = tipo;
     }
@@ -36,11 +36,11 @@ public class Registro {
     public void setValor(double valor) {
         this.valor = valor;
     }
-    public LocalDateTime getDataDeCriacao() {
-        return dataDeCriacao;
+    public String getDataDeCriacao() {
+        return new UtilDates().localDateToString(this.dataDeCriacao);
     }
-    public void setDataDeCriacao(LocalDateTime dataDeCriacao) {
-        this.dataDeCriacao = dataDeCriacao;
+    public void setDataDeCriacao(String dataDeCriacao) {
+        this.dataDeCriacao = new UtilDates().StringToLocalDate(dataDeCriacao);
     }
     public String getCategoria() {
         return categoria;
@@ -57,7 +57,7 @@ public class Registro {
 
     @Override
     public String toString() {
-        return "Registro [categoria=" + categoria + ", dataDeCriacao=" + UtilDates.localDateTimeToString(dataDeCriacao, "dd/MM/yyyy HH:mm:ss") + ", descricao=" + descricao
+        return "Registro [categoria=" + categoria + ", dataDeCriacao=" + new UtilDates().localDateToString(dataDeCriacao) + ", descricao=" + descricao
                 + ", tipo=" + tipo + ", valor=" + valor + "]";
     }
 

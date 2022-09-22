@@ -1,24 +1,19 @@
-import java.text.Normalizer.Form;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import models.Categorias;
 import models.Registro;
+import models.Tipo;
 import models.Enums.TipoRegistro;
 import view.Forms;
 
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        /**
-        Registro x = new Registro(
-            "Almoço", 20,
-            "25/09/2022 22:38:12",
-            "Alimentação", TipoRegistro.SAIDA);
-        */
+        
         
         ArrayList<Registro> listaDeRegistros = new ArrayList<>();
+        Tipo entradaOuSaida = new Tipo();
         Categorias categorias = new Categorias();
         char entrada;
         
@@ -28,49 +23,44 @@ public class Main {
 
 			Registro register = new Registro();
 
-            
+            //Escolhe o tipo
             int tipo = formulario.inserirTipo();
+            TipoRegistro tipoDeRegistro = entradaOuSaida.definirTipoRegistro(tipo);
+            register.setTipo(tipoDeRegistro);
 
-            if (tipo == 1){
-                register.setTipo(TipoRegistro.ENTRADA);
-            } else if (tipo == 2){
-                register.setTipo(TipoRegistro.SAIDA);
-            } else {
-                while(tipo > 2 || tipo < 1){
-                    System.out.print("Digite novamente seu tipo de registro: ");
-                    tipo = input.nextInt();
-                }
-            }
-               
-			System.out.println("\nEscolha a Categoria: \n");
-            categorias.mostrarCategorias(tipo);
+            //Escolhe a categoria
+            int indexCategoria = formulario.inserirCategoria(tipoDeRegistro);
+            register.setCategoria(categorias.escolheCategoria(indexCategoria));
+			// System.out.println("\nEscolha a Categoria: \n");
+            // categorias.mostrarCategorias(tipoDeRegistro);
             
-            System.out.println("Sua resposta é: ");
-            int indexCategoria = input.nextInt();
+            // System.out.print("Sua resposta é: ");
+            // int indexCategoria = input.nextInt();
 
-			register.setCategoria(categorias.escolheCategoria(indexCategoria));
-
+		 
             input.nextLine();
-			System.out.println("\nDigite a Descrição: ");
+			System.out.print("\nDigite a Descrição: ");
 			register.setDescricao(input.nextLine());
 
-			System.out.println("Digite o valor:");
+			System.out.print("Digite o valor: ");
 			register.setValor(Double.parseDouble(input.nextLine()));
 
-            System.out.println("Digite a data de registro: [Caso não digite a data será hoje]");
-            System.out.println("Digite o formarto: 00/00/0000");
+            
+            System.out.println("\nDigite a data de registro [00/00/0000]: ");
+            System.out.println("(Caso não digite a data será hoje)");
             String data = input.nextLine();
 
             register.setDataDeCriacao(data);
 
 			listaDeRegistros.add(register); 
 		
-			System.out.println("Deseja fornecer mais dados [y/n]?");
+			System.out.print("\nDeseja fornecer mais dados [y/n]? ");
             
 			entrada = input.nextLine().toLowerCase().strip().charAt(0);
 			
 		 }while (entrada == 'y');
 
          System.out.println(listaDeRegistros);
+         input.close();
     }
 }

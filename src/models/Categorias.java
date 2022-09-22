@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Enums.TipoRegistro;
+
 public class Categorias {
 
     private List<String> listaCategorias= new ArrayList<>();
@@ -21,10 +23,10 @@ public class Categorias {
         add("Outro");
     }};
 
-    public void mostrarCategorias(int tipo){
-        if(tipo == 1) {
+    public void mostrarCategorias(TipoRegistro tipo){
+        if(tipo == TipoRegistro.ENTRADA) {
             listaCategorias = listaEntradas;
-        }else if (tipo == 2){
+        }else if (tipo == TipoRegistro.SAIDA){
             listaCategorias = listaSaida;
         }
         for (int i = 0; i < listaCategorias.size(); i++){
@@ -33,6 +35,6 @@ public class Categorias {
     }
 
     public String escolheCategoria(int value) {
-        return listaCategorias.get(value-1);
+        return listaCategorias.get(value-1); // retorna a String da lista categoria escolhida
     }
 }

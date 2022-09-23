@@ -35,6 +35,7 @@ public class Categorias {
     }
 
     public String escolheCategoria(int value) {
-        return listaCategorias.get(value-1); // retorna a String da lista categoria escolhida
+        String valor = listaCategorias.get(value-1); // retorna a String da lista categoria escolhida
+        return valor;
     }
 }

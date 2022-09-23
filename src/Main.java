@@ -29,33 +29,24 @@ public class Main {
             register.setTipo(tipoDeRegistro);
 
             //Escolhe a categoria
-            int indexCategoria = formulario.inserirCategoria(tipoDeRegistro);
-            register.setCategoria(categorias.escolheCategoria(indexCategoria));
-			// System.out.println("\nEscolha a Categoria: \n");
-            // categorias.mostrarCategorias(tipoDeRegistro);
-            
-            // System.out.print("Sua resposta é: ");
-            // int indexCategoria = input.nextInt();
+            register.setCategoria(formulario.inserirCategoria(tipoDeRegistro));
 
-		 
-            input.nextLine();
-			System.out.print("\nDigite a Descrição: ");
-			register.setDescricao(input.nextLine());
+            //Escolhe a descrição/nome do registro
+            register.setDescricao(formulario.inserirDescricao());
 
-			System.out.print("Digite o valor: ");
-			register.setValor(Double.parseDouble(input.nextLine()));
 
-            
-            System.out.println("\nDigite a data de registro [00/00/0000]: ");
-            System.out.println("(Caso não digite a data será hoje)");
-            String data = input.nextLine();
+            //Escolhe o valor
+			register.setValor(formulario.inserirValor());
 
-            register.setDataDeCriacao(data);
+            //Define a data
+            register.setDataDeCriacao(formulario.inserirData());
 
+
+            //Adiciona registro na lista de registros
 			listaDeRegistros.add(register); 
 		
+
 			System.out.print("\nDeseja fornecer mais dados [y/n]? ");
-            
 			entrada = input.nextLine().toLowerCase().strip().charAt(0);
 			
 		 }while (entrada == 'y');

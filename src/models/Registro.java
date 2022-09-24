@@ -62,7 +62,9 @@ public class Registro {
         return "Registro [categoria=" + categoria + ", dataDeCriacao=" + new UtilDates().localDateToString(dataDeCriacao) + ", descricao=" + descricao
                 + ", tipo=" + tipo + ", valor=" + valor + "]";
     }
+ 
 
+   //Acessa os valores do objeto registro invocador, passando cada um para dentro de uma lista como Strings. 
     public ArrayList<String> toTable(){
         // Data   Descrição   Valor  Categoria  Tipo
         ArrayList<String> linha = new ArrayList<>(

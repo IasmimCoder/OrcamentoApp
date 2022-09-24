@@ -18,7 +18,6 @@ public class Main {
         Forms formulario = new Forms();
 
         do {
-
             Registro register = new Registro();
 
             // Escolhe o tipo
@@ -46,25 +45,32 @@ public class Main {
 
         } while (entrada == 'y');
 
-        System.out.println(listaDeRegistros);
-
-        int qtdRegistros = listaDeRegistros.size();
-
+        // MOCKS
+        /*    
+        Registro register = new Registro("Feira", 123, "24/09/2022", "Alimentação", TipoRegistro.SAIDA);
+        listaDeRegistros.add(register);    
+         */
+        
+       
         //Início da Matriz!
         ArrayList<String> cabecalho = new ArrayList<>(Arrays.asList("Data", "Descrição", "Valor", "Categoria", "Tipo"));
+       
+        //Lista que recebe outra lista: matriz
         ArrayList<ArrayList<String>> livroDeRegistro = new ArrayList<>();
         livroDeRegistro.add(cabecalho);
 
-        for (ArrayList<String> arrayList : livroDeRegistro) {
-            for (String dados : arrayList) {
-                System.out.print(dados + "\t");
-            }
-            System.out.println();
+        //no caso, tenho que transformar os valores de Registro em string e 
+        //passar cada registro como lista? SIM. Para isso, há o método toTable() criado na classe Registro.
+
+
+        //Neste for, acesso os dados dos registros como Strings DENTRO de listas. 
+        for (Registro registros : listaDeRegistros){
+            livroDeRegistro.add(registros.toTable()); // adiciona na matriz lista por lista
         }
-        
-                                                //$
-        // Data             Descrição           Valor            Categoria          Tipo
-        // 01/12/2022       Feira do mÊs        R$ 405,48        Alimentação        SAÍDA
+
+        livroDeRegistro = formulario.ajustaLivroDeRegistro(livroDeRegistro);
+        formulario.exibirLivroDeRegistro(livroDeRegistro);
+
         input.close();
     }
 }

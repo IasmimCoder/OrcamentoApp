@@ -1,5 +1,6 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import models.Categorias;
@@ -44,5 +45,43 @@ public class Forms {
         System.out.println("(Caso não digite a data será hoje)");
         String data = input.nextLine();
         return data;
+    }
+
+    public void exibirLivroDeRegistro(ArrayList<ArrayList<String>> livroDeRegistro){
+        for (ArrayList<String> arrayList : livroDeRegistro) {
+            for (String dado : arrayList) {
+                System.out.print(dado);
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * 
+     * O método pega da Matriz o dado e formata este. 
+     * int i: é equivalente a linha, ou seja, a lista
+     * int j: é equivalente a coluna, ou seja, o dado dentro da lista        
+     * @param livroDeRegistro
+     * @return retorna a matriz (livroDeRegistro) com os dados formatados
+     */
+    public ArrayList<ArrayList<String>> ajustaLivroDeRegistro(ArrayList<ArrayList<String>> livroDeRegistro) {
+        for (int i = 0; i < livroDeRegistro.size(); i++) {
+            for (int j = 0; j < livroDeRegistro.get(i).size(); j++) {
+                String dado = livroDeRegistro.get(i).get(j);
+                livroDeRegistro.get(i).set(j, formatedString(dado));
+            }
+        }
+        return livroDeRegistro;
+    }
+
+    /**
+     * Limita uma String a um determinado número de caracteres,
+     * o que permite a organização da matriz.
+     * @param text
+     * @return retorna uma String modificada
+     */
+    private String formatedString(String text) {
+        String textFormatted = String.format("%-15s", text);
+        return textFormatted.substring(0, 15) + " ";
     }
 }

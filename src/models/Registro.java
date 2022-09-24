@@ -1,6 +1,8 @@
 package models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import models.Enums.TipoRegistro;
 import utils.UtilDates;
@@ -61,7 +63,14 @@ public class Registro {
                 + ", tipo=" + tipo + ", valor=" + valor + "]";
     }
 
-    
+    public ArrayList<String> toTable(){
+        // Data   Descrição   Valor  Categoria  Tipo
+        ArrayList<String> linha = new ArrayList<>(
+            Arrays.asList(getDataDeCriacao(), getDescricao(),
+                        String.format("R$ %.2f", getValor()),
+                         getCategoria(), tipo.getNome()));
+        return linha;
+    }
     
 
 }

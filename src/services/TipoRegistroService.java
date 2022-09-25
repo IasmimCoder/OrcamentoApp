@@ -1,12 +1,10 @@
-package models;
+package services;
 
 import java.util.Scanner;
 
 import models.Enums.TipoRegistro;
 
-//import models.Enums.TipoRegistro;
-
-public class Tipo {
+public class TipoRegistroService {
 
     static Scanner input = new Scanner(System.in);
 

@@ -38,4 +38,18 @@ public class Categorias {
         String valor = listaCategorias.get(value-1); // retorna a String da lista categoria escolhida
         return valor;
     }
+
+    public List<String> getListaCategorias() {
+        return listaCategorias;
+    }
+
+    public List<String> getListaSaida() {
+        return listaSaida;
+    }
+
+    public List<String> getListaEntradas() {
+        return listaEntradas;
+    }
+
+    
 }

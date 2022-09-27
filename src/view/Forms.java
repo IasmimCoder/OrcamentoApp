@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import models.Categorias;
+import models.LivroDeRegistro;
 import models.Registro;
 import models.Enums.TipoRegistro;
 import services.TipoRegistroService;
@@ -37,9 +38,8 @@ public class Forms {
         return register;
     }
 
-    public void exibirLivroDeRegistro(ArrayList<ArrayList<String>> livroDeRegistro){
+    public void exibirLivroDeRegistroView(ArrayList<ArrayList<String>> livroDeRegistro){
         System.out.println();
-        ArrayList<String> cabecalho = new ArrayList<>(Arrays.asList("Data", "Descrição", "Valor", "Categoria", "Tipo"));
         
         for (ArrayList<String> arrayList : livroDeRegistro) {
             for (String dado : arrayList) {
@@ -58,7 +58,8 @@ public class Forms {
      * @return retorna a matriz (livroDeRegistro) com os dados formatados
      */
     //transformar esse método em um método genêrico
-    public ArrayList<ArrayList<String>> ajustaLivroDeRegistro(ArrayList<ArrayList<String>> livroDeRegistro) {
+    public ArrayList<ArrayList<String>> ajustaLivroDeRegistroView(ArrayList<ArrayList<String>> livroDeRegistro) {
+        
         for (int i = 0; i < livroDeRegistro.size(); i++) {
             for (int j = 0; j < livroDeRegistro.get(i).size(); j++) {
                 String dado = livroDeRegistro.get(i).get(j);
@@ -68,14 +69,40 @@ public class Forms {
         return livroDeRegistro;
     }
 
-    public String linhaCabeçalho() {
+    
+    public ArrayList<String> cabecalhoFormatado(){
+        ArrayList<String> cabecalho = new ArrayList<>(Arrays.asList
+        ("Data", "Descrição", "Valor", "Categoria", "Tipo"));
+        int totalEspaco = 0;
+        for (int i = 0; i < cabecalho.size(); i++) {
+            String dado = cabecalho.get(i);
+            cabecalho.set(i, formatedString(dado));
+            totalEspaco += (cabecalho.get(i).length() + 2);
+        }
+        totalEspaco ++;
+        String linha = this.linhaCabecalho(totalEspaco);
+        System.out.print(linha);
+        return cabecalho;
+    }
+
+    public void mostraTotalSaidas(LivroDeRegistro livroDeRegistro) {
+        livroDeRegistro.calculaTotal(categorias);
+        
+        System.out.println("TOTAL CASA: " + livroDeRegistro.getTotalCasa());
+        ArrayList<String> saidasList = new ArrayList<>();
+        saidasList.add("Total Casa: ");
+        saidasList.add("R$ " + String.format("R$ %.2f", livroDeRegistro.getTotalCasa()));
+        System.out.println(saidasList);
+    }
+    
+    private String linhaCabecalho(int number) {
         String linha = "";
-        for (int i = 0; i < 96; i++) {
+        for (int i = 0; i < number; i++) {
             linha += "-";
         }
         return linha;
     }
-
+    
     /**
      * Limita uma String a um determinado número de caracteres,
      * o que permite a organização da matriz.
@@ -99,7 +126,6 @@ public class Forms {
         categorias.mostrarCategorias(tipoDeRegistro);
         System.out.print("Sua resposta é: ");
         int indexCategoria = Integer.parseInt(input.nextLine());
-        
         return categorias.escolheCategoria(indexCategoria);
     }
 

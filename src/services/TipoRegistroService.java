@@ -6,6 +6,7 @@ import models.Enums.TipoRegistro;
 
 public class TipoRegistroService {
 
+    // SUgestão para esste Ser o validador
     static Scanner input = new Scanner(System.in);
 
     public TipoRegistro definirTipoRegistro(int value) {

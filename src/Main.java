@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import models.LivroDeRegistro;
@@ -15,52 +16,51 @@ public class Main {
         Forms formulario = new Forms();
         char entrada;
 
-        // do {
-        //     // Adiciona registro na lista de registros
-        //     livroDeRegistro.addRegistroToListaDeRegistro(formulario.inserirDadosDeRegistro());
+        formulario.iniciarTituloDoPrograma();
 
-        //     System.out.print("\nDeseja fornecer mais dados [y/n]? ");
-        //     entrada = input.nextLine().toLowerCase().strip().charAt(0);
+        do {
+        // Adiciona registro na lista de registros
+        livroDeRegistro.addRegistroToListaDeRegistro(formulario.inserirDadosDeRegistro());
 
-        // } while (entrada == 'y');
+        System.out.print("\nDeseja fornecer mais dados [y/n]? ");
+        entrada = input.nextLine().toLowerCase().strip().charAt(0);
 
-        // MOCKS
-            
-        Registro register = new Registro("Feira", 123, "24/09/2022", "Alimentação", TipoRegistro.SAIDA);
-        Registro register1 = new Registro("Feira1212dksoaksoaosa", 123, "24/09/2022", "Alimentação", TipoRegistro.SAIDA);
-        
-        
-        livroDeRegistro.addRegistroToListaDeRegistro(register);
-        livroDeRegistro.addRegistroToListaDeRegistro(register1);
-        
-       
-        //Início da Matriz! Para Visualização
-       
-        //Lista que recebe outra lista: matriz
+        } while (entrada == 'y');
+
+        // Início da Matriz! Para Visualização
+
+        // Lista que recebe outra lista: matriz
         ArrayList<ArrayList<String>> livroDeRegistroView = new ArrayList<>();
 
-        formulario.mostraTotalSaidas(livroDeRegistro);
+        // adiciona cabeçalho da tabela/matriz
+        livroDeRegistroView.add(formulario
+                .cabecalhoFormatado(new ArrayList<>(
+                        Arrays.asList("Data", "Descrição",
+                                "Valor", "Categoria", "Tipo"))));
 
-        //adiciona cabeçalho da tabela/matriz
-        livroDeRegistroView.add(formulario.cabecalhoFormatado());
-        
         /**
-            No caso, tenho que transformar os valores de Registro em string e 
-          passar cada objeto registro como lista? 
-          SIM. Para isso, há o método toTable() criado na classe Registro.
+         * No caso, tenho que transformar os valores de Registro em string e
+         * passar cada objeto registro como lista?
+         * SIM. Para isso, há o método toTable() criado na classe Registro.
          */
 
-        //Neste for, acesso os dados dos registros como Strings DENTRO de listas através do método toTable() 
-        //e adiciono à matriz. 
-        //Cada lista adicionada é uma linha na matriz
-        for (Registro registros : livroDeRegistro.getListaDeRegistros()){
+        // Neste for, acesso os dados dos registros como Strings DENTRO de listas
+        // através do método toTable()
+        // e adiciono à matriz.
+        // Cada lista adicionada é uma linha na matriz
+        for (Registro registros : livroDeRegistro.getListaDeRegistros()) {
             livroDeRegistroView.add(registros.toTable()); // adiciona na matriz lista por lista
         }
 
-        //Matriz subscrita ao retornar esta (livroDeRegistroView) com os dados formatados.
-        livroDeRegistroView = formulario.ajustaLivroDeRegistroView(livroDeRegistroView); 
+        // Matriz subscrita ao retornar esta (livroDeRegistroView) com os dados
+        // formatados.
+        livroDeRegistroView = formulario.ajustaLivroDeRegistroView(livroDeRegistroView);
 
-        formulario.exibirLivroDeRegistroView(livroDeRegistroView);
+        formulario.exibirLivroDeRegistroView(livroDeRegistroView, "LIVRO DE REGISTROS");
+        formulario.mostraTotalSaidasEntradas(livroDeRegistro);
+        formulario.resultadoDeSaldo(livroDeRegistro);
+
+        // teste
 
         input.close();
     }

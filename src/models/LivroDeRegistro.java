@@ -6,85 +6,69 @@ import java.util.Arrays;
 import models.Enums.TipoRegistro;
 
 public class LivroDeRegistro {
-    //SAIDAS
-    private double totalAlimetacao;
-    private double totalCasa;
-    private double totalSaude;
-    private double totalLazer;
-    private double totalTransporte;
-    private double totalOutroSaida;
 
     private ArrayList<Double> totaisSaidas = new ArrayList<>();
     private ArrayList<Double> totaisEntradas = new ArrayList<>();
 
+    // matrizes de valores por categoria e tipo
     private ArrayList<ArrayList<String>> totalSaidaFormatado = new ArrayList<>();
+    private ArrayList<ArrayList<String>> totalEntradaFormatado = new ArrayList<>();
 
-    //listaCategorias = 8
+    private double somaTotalDeCategoriasSaida;
+    private double somaTotalDeCategoriasEntrada;
+
+    // listaCategorias = 8
     // Alimentação
     // Transporte
-    //...
+    // ...
 
     // ListaPronta = 8
     // Alimentação: R$ 845,55
     // Casa: R$ 899,20
 
-    //ENTRADAS
-    private double totalSalario;
-    
-    private double totalOutroEntrada;
-
-
     private ArrayList<Registro> listaDeRegistros = new ArrayList<>();
-    
+
     public void calculaTotal(Categorias categorias) {
+
+        /*
+         * //inicializa as listas totaisEntradas/TotaisSaidas
+         * //é necessário porque só podemos adicionar valores em determinadas posições
+         * //somente quando elas já são existentes.
+         */
 
         this.initLists(categorias);
 
-        int indexRegister = 0;
-        for (Registro registro : listaDeRegistros){
+        for (Registro registro : listaDeRegistros) {
+
+            // verifica o tipo,
+            // depois verifica categoria por categoria de acordo com seus índices
+            // para depois somar, na listaSaidas/listaEntradas os valores de registros por
+            // categoria
+            // automatizar a verificação com indexRegister
 
             if (registro.getTipo() == TipoRegistro.SAIDA) {
-                if (registro.getCategoria() == categorias.getListaSaida().get(0)) {
-                    totaisSaidas.set(0, totaisSaidas.get(0) + registro.getValor());
-                };
-
-                if (registro.getCategoria() == categorias.getListaSaida().get(1)) {
-                    totaisSaidas.set(1, totaisSaidas.get(1) + registro.getValor());
-                };
-
-                if (registro.getCategoria() == categorias.getListaSaida().get(2)) {
-                    totaisSaidas.set(2, totaisSaidas.get(2) + registro.getValor());
-                };
-
-                if (registro.getCategoria() == categorias.getListaSaida().get(3)) {
-                    totaisSaidas.set(3, totaisSaidas.get(3) + registro.getValor());
-                };
-
-                if (registro.getCategoria() == categorias.getListaSaida().get(4)) {
-                    totaisSaidas.set(4, totaisSaidas.get(4) + registro.getValor());
-                };
-
-                if (registro.getCategoria() == categorias.getListaSaida().get(5)) {
-                    totaisSaidas.set(5, totaisSaidas.get(5) + registro.getValor());
-                };
+                for (int i = 0; i < totaisSaidas.size(); i++) {
+                    if (registro.getCategoria() == categorias.getListaSaida().get(i)) {
+                        totaisSaidas.set(i, totaisSaidas.get(i) + registro.getValor());
+                    }
+                }
             }
 
-            if (registro.getTipo() == TipoRegistro.ENTRADA){
-                if (registro.getCategoria() == categorias.getListaSaida().get(0)) {
-                    totaisSaidas.set(0, totaisSaidas.get(0) + registro.getValor());
-                };
+            if (registro.getTipo() == TipoRegistro.ENTRADA) {
+                for (int i = 0; i < totaisEntradas.size(); i++) {
 
-                if (registro.getCategoria() == categorias.getListaSaida().get(1)) {
-                    totaisSaidas.set(1, totaisSaidas.get(1) + registro.getValor());
-                };
+                    if (registro.getCategoria() == categorias.getListaEntradas().get(i)) {
+                        totaisEntradas.set(i, totaisEntradas.get(i) + registro.getValor());
+                    }
+                }
             }
-            indexRegister++;
         }
-        System.out.println(totaisSaidas);
+
+        // adicionar total
+        this.calculaTotalSaidaEntrada();
         this.formataLista(categorias);
-        totalSaidaFormatado.forEach(el -> System.out.println(el));
     }
-    
+
     public ArrayList<Registro> getListaDeRegistros() {
         return listaDeRegistros;
     }
@@ -93,54 +77,65 @@ public class LivroDeRegistro {
         this.listaDeRegistros.add(registro);
     }
 
-    public double getTotalAlimetacao() {
-        return totalAlimetacao;
+    public ArrayList<ArrayList<String>> getTotalSaidaFormatado() {
+        return totalSaidaFormatado;
     }
 
-    public double getTotalCasa() {
-        return totalCasa;
+    public ArrayList<ArrayList<String>> getTotalEntradaFormatado() {
+        return totalEntradaFormatado;
     }
 
-    public double getTotalSaude() {
-        return totalSaude;
+    public double getSomaTotalDeCategoriasSaida() {
+        return somaTotalDeCategoriasSaida;
     }
 
-    public double getTotalLazer() {
-        return totalLazer;
+    public double getSomaTotalDeCategoriasEntrada() {
+        return somaTotalDeCategoriasEntrada;
     }
 
-    public double getTotalTransporte() {
-        return totalTransporte;
-    }
-
-    public double getTotalOutroSaida() {
-        return totalOutroSaida;
-    }
-
-    public double getTotalSalario() {
-        return totalSalario;
-    }
-
-    public double getTotalOutroEntrada() {
-        return totalOutroEntrada;
-    }
-    
+    // inicializa os índeces das listas "totaisEntradas" e "totaisSaidas",
     private void initLists(Categorias categorias) {
         for (int i = 0; i < categorias.getListaSaida().size(); i++) {
             this.totaisSaidas.add(0.0);
-        };
+        }
 
         for (int i = 0; i < categorias.getListaEntradas().size(); i++) {
             this.totaisEntradas.add(0.0);
-        };
+        }
     }
 
+    private void calculaTotalSaidaEntrada() {
+        for (double value : totaisSaidas) {
+            somaTotalDeCategoriasSaida += value;
+        }
+
+        for (double value : totaisEntradas) {
+            somaTotalDeCategoriasEntrada += value;
+        }
+    }
+
+    /**
+     * adiciona, linha por linha, os valores de cada categoria dentro das matrizes,
+     * juntamente com o nome da categoria.
+     */
     private void formataLista(Categorias categorias) {
-        
+
         for (int i = 0; i < categorias.getListaSaida().size(); i++) {
             this.totalSaidaFormatado.add(new ArrayList<>(
-                Arrays.asList(categorias.getListaSaida().get(i), String.format("R$ %.2f", totaisSaidas.get(i)))
-            ));
+                    Arrays.asList(categorias.getListaSaida().get(i), String.format("R$ %.2f", totaisSaidas.get(i)))));
         }
+
+        for (int i = 0; i < categorias.getListaEntradas().size(); i++) {
+            this.totalEntradaFormatado.add(new ArrayList<>(
+                    Arrays.asList(categorias.getListaEntradas().get(i),
+                            String.format("R$ %.2f", totaisEntradas.get(i)))));
+        }
+
+        // Adiciona os totais de categoria ao final de cada matriz
+        this.totalSaidaFormatado.add(new ArrayList<>(
+                Arrays.asList("TOTAL", String.format("R$ %.2f", somaTotalDeCategoriasSaida))));
+
+        this.totalEntradaFormatado.add(new ArrayList<>(
+                Arrays.asList("TOTAL", String.format("R$ %.2f", somaTotalDeCategoriasEntrada))));
     }
 }
